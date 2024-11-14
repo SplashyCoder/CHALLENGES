@@ -1,103 +1,96 @@
-"use strict";
+'use strict';
 
-const fs = require("fs");
+const fs = require('fs');
 
 process.stdin.resume();
-process.stdin.setEncoding("utf-8");
+process.stdin.setEncoding('utf-8');
 
-let inputString = "";
+let inputString = '';
 let currentLine = 0;
 
-process.stdin.on("data", (inputStdin) => {
-  inputString += inputStdin;
+process.stdin.on('data', inputStdin => {
+    inputString += inputStdin;
 });
 
-process.stdin.on("end", (_) => {
-  inputString = inputString
-    .trim()
-    .split("\n")
-    .map((str) => str.trim());
+process.stdin.on('end', _ => {
+    inputString = inputString.trim().split('\n').map(str => str.trim());
 
-  main();
+    main();
 });
 
 function readLine() {
-  return inputString[currentLine++];
+    return inputString[currentLine++];
 }
 
 /*
  * Complete the getMoneySpent function below.
  */
 function getMoneySpent(keyboards, drives, b) {
-  /*
-   * Write your code here.
-   */
-
-  const getNumbers = (keyboards, drives) => {
-    const combinations = [];
-
-    if (drives.length < keyboards.length || drives.length == keyboards.length) {
-      for (let i = 0; i < drives.length; i++) {
-        for (let j = 0; j < keyboards.length; j++) {
-          console.log(keyboards[i], drives[j]);
-          console.log(keyboards[i] + drives[j]);
-          combinations.push(drives[i] + keyboards[j]);
+    /*
+     * Write your code here.
+     */
+    
+    const getNumbers = (keyboards,drives) => {
+        
+        const combinations = []    
+        
+        
+        if ((drives.length < keyboards.length) || (drives.length == keyboards.length) ){
+            for(let i = 0 ; i < drives.length; i++){
+                for(let j = 0 ; j < keyboards.length; j++){
+                    combinations.push(drives[i] + keyboards[j])
+                }    
+            }
         }
-      }
-    }
-
-    if (drives.length > keyboards.length) {
-      for (let i = 0; i < keyboards.length; i++) {
-        for (let j = 0; j < drives.length; j++) {
-          console.log(keyboards[i], drives[j]);
-          console.log(keyboards[i] + drives[j]);
-          combinations.push(keyboards[i] + drives[j]);
+        
+        if (drives.length > keyboards.length){
+            for(let i = 0 ; i < keyboards.length; i++){
+                for(let j = 0 ; j < drives.length; j++){
+                    combinations.push(keyboards[i] + drives[j])
+                }    
+            }
         }
-      }
+        
+        
+        return combinations
     }
-
-    return combinations;
-  };
-
-  const combinations = getNumbers(keyboards, drives);
-  const combinationsSorted = combinations.sort((a, b) => a - b);
-  const combinationsReady = combinationsSorted.filter((num) => num < b);
-
-  if (combinationsReady.length == 0) {
-    return -1;
-  }
-
-  return combinationsReady[combinationsReady.length - 1];
-  //combinations.sort
-  console.log(nuevoArray);
+    
+    
+    const combinations = getNumbers(keyboards,drives)
+    const combinationsSorted = combinations.sort((a, b) => a - b) 
+    const combinationsReady = combinationsSorted.filter(num => num <= b);   
+        
+    if(combinationsReady.length == 0){
+        return(-1)
+    }
+    
+    return(combinationsReady[combinationsReady.length-1])
+    //combinations.sort
+    console.log(nuevoArray)
 }
 
 function main() {
-  const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
+    const ws = fs.createWriteStream(process.env.OUTPUT_PATH);
 
-  const bnm = readLine().split(" ");
+    const bnm = readLine().split(' ');
 
-  const b = parseInt(bnm[0], 10);
+    const b = parseInt(bnm[0], 10);
 
-  const n = parseInt(bnm[1], 10);
+    const n = parseInt(bnm[1], 10);
 
-  const m = parseInt(bnm[2], 10);
+    const m = parseInt(bnm[2], 10);
 
-  const keyboards = readLine()
-    .split(" ")
-    .map((keyboardsTemp) => parseInt(keyboardsTemp, 10));
+    const keyboards = readLine().split(' ').map(keyboardsTemp => parseInt(keyboardsTemp, 10));
 
-  const drives = readLine()
-    .split(" ")
-    .map((drivesTemp) => parseInt(drivesTemp, 10));
+    const drives = readLine().split(' ').map(drivesTemp => parseInt(drivesTemp, 10));
 
-  /*
-   * The maximum amount of money she can spend on a keyboard and USB drive, or -1 if she can't purchase both items
-   */
+    /*
+     * The maximum amount of money she can spend on a keyboard and USB drive, or -1 if she can't purchase both items
+     */
 
-  let moneySpent = getMoneySpent(keyboards, drives, b);
+    let moneySpent = getMoneySpent(keyboards, drives, b);
 
-  ws.write(moneySpent + "\n");
+    ws.write(moneySpent + "\n");
 
-  ws.end();
+    ws.end();
 }
