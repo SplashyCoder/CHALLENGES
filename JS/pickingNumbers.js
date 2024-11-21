@@ -37,11 +37,33 @@ function pickingNumbers(a) {
   let sliceSince = 0;
 
   for (let i = 0; i < aSorted.length; i++) {
-    console.log(i, aSorted[i]);
-    if (aSorted[i] == 3) {
-      i = 1;
+    console.log(
+      `i=${i} aSorted[i]=${aSorted[i]} aSorted[i+1]=${aSorted[i + 1]}`
+    );
+    console.log("sliceSi", sliceSince);
+    if (Math.abs(aSorted[i] - aSorted[i + 1]) <= 1) {
+      console.log("enter");
 
-      console.log("i=1");
+      if (i == aSorted.length - 2) {
+        console.log("final");
+        console.log("slice", aSorted.slice(sliceSince, i + 1));
+        subArrays.push(aSorted.slice(sliceSince, aSorted.length));
+      }
+
+      if (aSorted[i] != aSorted[i + 1]) {
+        numbersCounter += 1;
+        console.log("countr", numbersCounter);
+      }
+
+      if (numbersCounter > 1) {
+        console.log("slice", aSorted.slice(sliceSince, i + 1));
+        subArrays.push(aSorted.slice(sliceSince, i + 1));
+        sliceSince = i;
+        numbersCounter = 0;
+        i = i - 1;
+
+        console.log(`i= ${i}`);
+      }
     }
   }
 
